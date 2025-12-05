@@ -1,7 +1,5 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styles from './container.module.css';
-import DocUpload from '../docUpload/docUpload';
-import DocSummarize from '../docSummarize/docSummarize';
 import FileUploader from '../fileUpload/fileUploader';
 
 interface ContainerProps {}
@@ -14,9 +12,6 @@ const Container: FC<ContainerProps> = () => {
     setResponse('Summary result will appear here. (placeholder)');
   };
 
-  const handleClear = () => {
-    setResponse('');
-  };
 
   return (
     <div className={styles.container} data-testid="container">
