@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 
@@ -7,10 +7,29 @@ const FileUploader: FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<UploadStatus>('idle');
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [textPreview, setTextPreview] = useState<string | null>(null);
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
-      setFile(e.target.files[0]);
+      const f = e.target.files[0];
+      setFile(f);
+
+      // create object URL for preview
+      const url = URL.createObjectURL(f);
+      setPreviewUrl(url);
+
+      // if text file, read first chunk for preview
+      if (f.type.startsWith('text') || f.name.endsWith('.txt')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const text = String(reader.result || '');
+          setTextPreview(text.slice(0, 200));
+        };
+        reader.readAsText(f);
+      } else {
+        setTextPreview(null);
+      }
     }
   }
 
@@ -44,17 +63,18 @@ const FileUploader: FC = () => {
     }
   }
 
+  // cleanup object URL when component unmounts or file changes
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
   return (
     <div className="space-y-2">
       <input type="file" onChange={handleFileChange} />
-
-      {file && (
-        <div className="mb-4 text-sm">
-          <p>File name: {file.name}</p>
-          <p>Size: {(file.size / 1024).toFixed(2)} KB</p>
-          <p>Type: {file.type}</p>
-        </div>
-      )}
 
       {status === 'uploading' && (
         <div className="space-y-2">
@@ -79,7 +99,37 @@ const FileUploader: FC = () => {
       {status === 'error' && (
         <p className="text-sm text-red-600">Upload failed. Please try again.</p>
       )}
+
+      {/* once file is uploaded display preview */}
+      {status === 'success' && file && (
+        <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+          <h4 className="font-medium mb-2">File Preview:</h4>
+          <div>
+            <p className="font-medium">{file.name}</p>
+            <p className="text-sm text-gray-600">{(file.size / 1024).toFixed(2)} KB</p>
+          </div>
+
+          <div className="mt-3">
+            {file.type.startsWith('image/') && previewUrl && (
+              <img src={previewUrl} alt={file.name} className="max-w-full rounded-md" />
+            )}
+
+            {file.type === 'application/pdf' && previewUrl && (
+              <embed src={previewUrl} type="application/pdf" width="100%" height="400px" />
+            )}
+
+            {textPreview && (
+              <pre className="whitespace-pre-wrap text-sm text-gray-800 mt-2">{textPreview}</pre>
+            )}
+
+            {!previewUrl && !textPreview && (
+              <p className="text-sm text-gray-600">Preview not available for this file type.</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
+    
   );
 }
 
