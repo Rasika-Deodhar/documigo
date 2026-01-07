@@ -1,0 +1,10 @@
+.menu {
+    height: 10vh; /* Adjust height as needed */
+    width: 100vw;  /* Adjust width as needed */
+    background-color: rgb(85, 85, 224);
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    display: flex;
+    gap: 20px; /* Space between buttons */
+}

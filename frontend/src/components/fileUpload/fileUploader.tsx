@@ -109,7 +109,7 @@ const FileUploader: FC = () => {
             <p className="text-sm text-gray-600">{(file.size / 1024).toFixed(2)} KB</p>
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3 file-preview">
             {file.type.startsWith('image/') && previewUrl && (
               <img src={previewUrl} alt={file.name} className="max-w-full rounded-md" />
             )}

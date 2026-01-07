@@ -1,0 +1,26 @@
+.container {
+    display: flex; /* Makes the container a flex container */
+    height: 100vh; /* Makes the container full height of the viewport */
+    width: 100vw;  /* Makes the container full width of the viewport */
+    justify-content: center; /* Centers content horizontally */
+}
+
+.left-side, .right-side {
+    flex: 1; /* Each partition takes equal available space */
+    padding: 20px;
+    box-sizing: border-box; /* Includes padding in the element's total width/height */
+    overflow-y: scroll; /* Allows scrolling within the partition if content overflows */
+}
+
+.left-side {
+    text-align: center;
+    background-color: #dba4a4;
+    border-right: 1px solid #ccc; /* Optional divider line */
+    float: left;
+}
+
+.right-side {
+    background-color: #b9b8b8;
+    float: right;
+    justify-items: center;
+}
