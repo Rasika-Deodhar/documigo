@@ -3,3 +3,4 @@ flask-cors>=3.0.10
 PyPDF2>=3.0.0
 python-docx>=0.8.11
 openai>=1.0.0
+pymongo>=4.0.0

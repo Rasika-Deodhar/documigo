@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from 'react';
+import { FC, useState, useRef, useEffect } from 'react';
 import './uploadDocument.css';
 import PDFViewerCustom from '../PDFViewerCustom/PDFViewerCustom';
 
@@ -11,8 +11,13 @@ const UploadDocument: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+  handleExtractAndSend();
+  }, [file, fileUrl]); 
+
   // Extract text from file and send to backend
   const handleExtractAndSend = async () => {
+    console.log('Starting text extraction and sending to backend...', file, fileUrl);
     if (!file) return;
 
     setIsLoading(true);
@@ -63,7 +68,7 @@ const UploadDocument: React.FC = () => {
   };
 
   // Handle the dropped file(s)
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
@@ -91,7 +96,7 @@ const UploadDocument: React.FC = () => {
     <div className='document'
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      onDrop={(e) => { handleDrop(e); handleExtractAndSend(); }}
       style={{
         border: `2px dashed ${isDragging ? 'steelblue' : '#ccc'}`,
         padding: '20px',
@@ -127,7 +132,7 @@ const UploadDocument: React.FC = () => {
           }}>
             <PDFViewerCustom fileUrl={fileUrl} fileName={file.name} />
           </div>
-          <div style={{ marginTop: '10px', display: 'flex', gap: '10px', justifyContent: 'center', flexShrink: 0 }}>
+          {/* <div style={{ marginTop: '10px', display: 'flex', gap: '10px', justifyContent: 'center', flexShrink: 0 }}>
             <button
               onClick={handleExtractAndSend}
               disabled={isLoading}
@@ -156,7 +161,7 @@ const UploadDocument: React.FC = () => {
                 {extractedText}
               </pre>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </div>
