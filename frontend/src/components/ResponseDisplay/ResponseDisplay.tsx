@@ -7,7 +7,7 @@ const ResponseDisplay: FC = () => {
 const { docSummary } = useGlobal();
   return (
     <div className='response-display-container'>
-      {!docSummary && <p>Response would be shown here!</p>}
+      {!docSummary && <p>Response would be shown here! Backend is being setup.</p>}
       {docSummary && <><h3>Document Summary:</h3><p>{docSummary}</p></>}
     </div>
   );
