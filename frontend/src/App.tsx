@@ -6,7 +6,6 @@ function App() {
   return (
     <GlobalProvider>
       <div className="App">
-        {/* <Container /> */}
         <FirstPage />
       </div>
     </GlobalProvider>

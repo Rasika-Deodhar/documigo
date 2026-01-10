@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './uploadDocument.css';
 import PDFViewerCustom from '../PDFViewerCustom/PDFViewerCustom';
 import { useGlobal } from '../../contexts/GlobalContext';
@@ -13,12 +13,8 @@ const UploadDocument: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { setDocumentText } = useGlobal();
 
-  useEffect(() => {
-  handleExtractAndSend();
-  }, [file, fileUrl]); 
-
   // Extract text from file and send to backend
-  const handleExtractAndSend = async () => {
+  const handleExtractAndSend = useCallback(async () => {
 
     if (!file) return;
 
@@ -53,7 +49,12 @@ const UploadDocument: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [file, setDocumentText]);
+
+  useEffect(() => {
+    handleExtractAndSend();
+    console.log(extractedText, isLoading, error);
+  }, [handleExtractAndSend, extractedText, isLoading, error]);
 
   // Prevent default behavior and show drag feedback
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
