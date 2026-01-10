@@ -1,6 +1,7 @@
 import { FC, useState, useRef, useEffect } from 'react';
 import './uploadDocument.css';
 import PDFViewerCustom from '../PDFViewerCustom/PDFViewerCustom';
+import { useGlobal } from '../../contexts/GlobalContext';
 
 
 const UploadDocument: React.FC = () => {
@@ -10,6 +11,7 @@ const UploadDocument: React.FC = () => {
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { setDocumentText } = useGlobal();
 
   useEffect(() => {
   handleExtractAndSend();
@@ -17,7 +19,7 @@ const UploadDocument: React.FC = () => {
 
   // Extract text from file and send to backend
   const handleExtractAndSend = async () => {
-    console.log('Starting text extraction and sending to backend...', file, fileUrl);
+
     if (!file) return;
 
     setIsLoading(true);
@@ -38,13 +40,12 @@ const UploadDocument: React.FC = () => {
       }
 
       const data = await response.json();
+      setDocumentText(data.content);
       
       if (data.error) {
         setError(data.error);
       } else {
         setExtractedText(data.content);
-        console.log('Extracted text:', data.content);
-        console.log('Summary text:', data.summary);
       }
     } catch (err) {
       setError(`Failed to extract text: ${err instanceof Error ? err.message : String(err)}`);
@@ -84,7 +85,6 @@ const UploadDocument: React.FC = () => {
       // Create a Blob URL from the File object for react-pdf to read
       const url = URL.createObjectURL(droppedFile);
       setFileUrl(url);
-      console.log('Dropped file:', droppedFile.name);
       
       // Clear dataTransfer data after processing
       e.dataTransfer.clearData(); 

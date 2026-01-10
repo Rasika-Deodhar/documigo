@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 import io
 import os
 import hf
+from mongo_db_connect import *
 
 
 # Optional: libraries for document parsing. Make sure they're installed (see requirements.txt)
@@ -83,14 +84,40 @@ def read_document():
     except Exception as e:
         return jsonify({"error": f"Failed to extract text: {str(e)}"}), 500
 
-    summary = hf.generate_response(text, "Provide a concise summary of the document.")
+    return jsonify({"filename": filename, "content": text})
 
-    return jsonify({"filename": filename, "content": text, "summary": summary})
-
+@app.route('/api/generate-summary', methods=['POST'])
+def generate_summary():
+    if not request.json:
+        return jsonify({"error": "Invalid input, JSON expected"}), 400
+    data = request.json
+    text = data.get('text', '')
+    try:
+        if not text:
+            return jsonify({"error": "No text provided"}), 400
+        summary = hf.generate_response(text, "Provide a concise summary of the document.")
+    except Exception as e:
+        return jsonify({"error": f"Failed to generate summary: {str(e)}"}), 500
+    return jsonify({"summary": summary})
 
 @app.route('/api/data')
 def get_data():
     return jsonify({"message": "Hello from the Python backend!"})
+
+
+@app.route('/api/store-text', methods=['POST'])
+def store_text():
+    data = request.json
+    # Implement your logic to store the text data here
+    write_to_db("document_text", data)
+    return jsonify({"status": "success", "data": data})
+
+@app.route('/api/store-text-summary', methods=['POST'])
+def store_text_summary():
+    data = request.json
+    # Implement your logic to store the text data here
+    write_to_db("document_summary", data)
+    return jsonify({"status": "success", "data": data})
 
 
 if __name__ == '__main__':
