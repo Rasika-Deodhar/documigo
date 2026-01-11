@@ -119,11 +119,10 @@ def store_text_summary():
     write_to_db("document_summary", data)
     return jsonify({"status": "success", "data": data})
 
+@app.route('/')
+def hello():
+    return "Hello, World!"
 
 if __name__ == '__main__':
     app.run()
     # app.run(port=5000)
-
-@app.route('/')
-def hello():
-    return "Hello, World!"
