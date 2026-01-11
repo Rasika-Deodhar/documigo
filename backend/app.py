@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import io
@@ -126,4 +126,5 @@ if __name__ == '__main__':
 
 @app.route('/')
 def hello():
-    return "Hello from Vercel!"
+    print("Rendering index.html")
+    return render_template("index.html")
