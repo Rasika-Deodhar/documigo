@@ -1,19 +1,14 @@
-import os
-from openai import OpenAI
+from flask import Flask
 
-client = OpenAI(
-    base_url="https://router.huggingface.co/v1",
-    api_key=os.environ.get("HF_TOKEN"),
-)
+test = Flask(__name__)
 
-completion = client.chat.completions.create(
-    model="meta-llama/Llama-3.1-8B-Instruct:sambanova",
-    messages=[
-        {
-            "role": "user",
-            "content": "What is the capital of France?"
-        }
-    ],
-)
+@test.route("/")
+def home():
+    return "Hello, Vercel!"
 
-print(completion.choices[0].message)
+@test.route("/api")
+def api():
+    return "Hello, API!"
+
+if __name__ == "__main__":
+    test.run()
