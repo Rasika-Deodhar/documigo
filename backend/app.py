@@ -121,8 +121,8 @@ def store_text_summary():
 
 
 if __name__ == '__main__':
-    # Run the app on port 5000 (standard for Flask development)
-    app.run(port=5000)
+    app.run()
+    # app.run(port=5000)
 
 @app.route('/')
 def hello():
