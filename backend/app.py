@@ -120,6 +120,11 @@ def store_text_summary():
     return jsonify({"status": "success", "data": data})
 
 
-if __name__ == '__main__':
-    # Run the app on port 5000 (standard for Flask development)
-    app.run(debug=True, port=5000)
+# Commented to run on Vercel
+# if __name__ == '__main__':
+#     # Run the app on port 5000 (standard for Flask development)
+#     app.run(debug=True, port=5000)
+
+@app.route('/')
+def hello():
+    return "Hello from Vercel!"
