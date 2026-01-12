@@ -25,6 +25,10 @@ CORS(app)
 # Limit uploads to 16 MB
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
+@app.route('/')
+def home():
+    return "Hello, World!"
+
 
 @app.route('/api/health')
 def health():
@@ -119,10 +123,6 @@ def store_text_summary():
     write_to_db("document_summary", data)
     return jsonify({"status": "success", "data": data})
 
-@app.route('/')
-def hello():
-    return "Hello, World!"
-
-# if __name__ == '__main__':
-#     app.run()
-#     # app.run(port=5000)
+if __name__ == '__main__':
+    app.run()
+    # app.run(port=5000)
