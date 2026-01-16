@@ -7,6 +7,7 @@ const Menu: FC = () => {
 
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('Button clicked!', event);
+    console.log('Doc Text', documentText);
     try {
       const response = await fetch(`${apiBaseUrl}/api/generate-summary`, {
         method: 'POST',
