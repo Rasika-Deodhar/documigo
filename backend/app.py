@@ -3,7 +3,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import io
 import os
-from backend import hf
+from backend import hf, mongo_db_connect
 
 # Optional: libraries for document parsing. Make sure they're installed (see requirements.txt)
 try:
@@ -43,6 +43,7 @@ def extract_text_from_pdf(data: bytes) -> str:
             texts.append(page.extract_text() or "")
         except Exception:
             # ignore page-level errors
+            print("Warning: failed to extract text from a PDF page, skipping.", Exception)
             continue
     return "\n".join(texts)
 
@@ -99,6 +100,7 @@ def generate_summary():
             return jsonify({"error": "No text provided"}), 400
         summary = hf.generate_response(text, "Provide a concise summary of the document.")
     except Exception as e:
+        print(f"Error generating summary: {str(e)}")
         return jsonify({"error": f"Failed to generate summary: {str(e)}"}), 500
     return jsonify({"summary": summary})
 
@@ -122,5 +124,5 @@ def store_text_summary():
     return jsonify({"status": "success", "data": data})
 
 if __name__ == '__main__':
-    app.run()
-    # app.run(port=5000)
+    # app.run()
+    app.run(port=5000)

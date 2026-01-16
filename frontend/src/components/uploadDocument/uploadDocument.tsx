@@ -11,7 +11,7 @@ const UploadDocument: React.FC = () => {
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { setDocumentText } = useGlobal();
+  const { setDocumentText, apiBaseUrl } = useGlobal();
 
   // Extract text from file and send to backend
   const handleExtractAndSend = useCallback(async () => {
@@ -26,7 +26,7 @@ const UploadDocument: React.FC = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://127.0.0.1:5000/api/read-document', {
+      const response = await fetch(`${apiBaseUrl}/api/read-document`, {
         method: 'POST',
         body: formData,
       });

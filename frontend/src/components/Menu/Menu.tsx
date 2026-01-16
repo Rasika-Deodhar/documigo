@@ -3,12 +3,12 @@ import { useGlobal } from '../../contexts/GlobalContext';
 import './Menu.css';
 
 const Menu: FC = () => {
-  const { documentText, setDocSummary } = useGlobal();
+  const { documentText, setDocSummary, apiBaseUrl } = useGlobal();
 
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('Button clicked!', event);
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/generate-summary', {
+      const response = await fetch(`${apiBaseUrl}/api/generate-summary`, {
         method: 'POST',
         body: JSON.stringify({ text: documentText }),
         headers: {

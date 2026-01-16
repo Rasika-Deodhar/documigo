@@ -6,6 +6,7 @@ interface GlobalState {
   setDocumentText: (text: string) => void;
   docSummary: string;
   setDocSummary: (summary: string) => void;
+  apiBaseUrl?: string;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -14,9 +15,14 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   // 2. Define multiple states
   const [documentText, setDocumentText] = useState("");
   const [docSummary, setDocSummary] = useState("");
+  const apiBaseUrl =  process.env.REACT_APP_API_BASE_URL
+    ? process.env.REACT_APP_API_BASE_URL
+    : "https://documigo.vercel.app/";
+
+    console.log("process.env.REACT_APP_API_BASE_URL:", process.env.REACT_APP_API_BASE_URL);
 
   return (
-    <GlobalContext.Provider value={{ documentText, setDocumentText, docSummary, setDocSummary }}>
+    <GlobalContext.Provider value={{ documentText, setDocumentText, docSummary, setDocSummary, apiBaseUrl }}>
       {children}
     </GlobalContext.Provider>
   );

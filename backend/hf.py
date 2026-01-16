@@ -1,7 +1,9 @@
 import os
 from typing import Optional
 from openai import OpenAI, AuthenticationError
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # Read token and optional model id from environment variables
 HF_TOKEN = os.environ.get("HF_TOKEN")
