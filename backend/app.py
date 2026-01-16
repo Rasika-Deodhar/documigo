@@ -4,8 +4,8 @@ from werkzeug.utils import secure_filename
 import io
 import os
 import sys
-import hf
-import mongo_db_connect
+from backend import hf
+from backend import mongo_db_connect
 
 # Add the backend folder to sys.path
 sys.path.append(os.path.dirname(__file__))
