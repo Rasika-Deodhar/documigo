@@ -3,8 +3,8 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import io
 import os
-from backend import hf 
-from backend import mongo_db_connect
+import backend.hf as hf
+import backend.mongo_db_connect as mongo_db_connect
 
 # Optional: libraries for document parsing. Make sure they're installed (see requirements.txt)
 try:
