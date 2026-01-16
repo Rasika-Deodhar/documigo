@@ -3,7 +3,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import io
 import os
-import hf
+from backend import hf
 from mongo_db_connect import *
 
 
