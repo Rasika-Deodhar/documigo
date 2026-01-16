@@ -49,7 +49,7 @@ const UploadDocument: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [file, setDocumentText]);
+  }, [file, setDocumentText, apiBaseUrl]);
 
   useEffect(() => {
     handleExtractAndSend();
