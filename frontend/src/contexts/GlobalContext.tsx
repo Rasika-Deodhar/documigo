@@ -17,7 +17,7 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   const [docSummary, setDocSummary] = useState("");
   const apiBaseUrl =  process.env.REACT_APP_API_BASE_URL
     ? process.env.REACT_APP_API_BASE_URL
-    : "https://documigo.vercel.app/";
+    : "https://documigo.vercel.app";
 
     console.log("process.env.REACT_APP_API_BASE_URL:", process.env.REACT_APP_API_BASE_URL);
 
