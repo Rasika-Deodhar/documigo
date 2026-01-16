@@ -1,10 +1,14 @@
+from readline import backend
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import io
 import os
 import backend.hf as hf
-import backend.mongo_db_connect as mongo_db_connect
+import backend as backend
+# import backend.mongo_db_connect as mongo_db_connect
+
+print("Importing mongo_db_connect", backend)
 
 # Optional: libraries for document parsing. Make sure they're installed (see requirements.txt)
 try:
