@@ -4,8 +4,6 @@ from werkzeug.utils import secure_filename
 import io
 import os
 from backend import hf
-from mongo_db_connect import *
-
 
 # Optional: libraries for document parsing. Make sure they're installed (see requirements.txt)
 try:
