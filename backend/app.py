@@ -5,9 +5,9 @@ import io
 import os
 import backend.hf as hf
 import backend as backend
-# import backend.mongo_db_connect as mongo_db_connect
+import backend.mongo_db_connect as mongo_db_connect
 
-print("Importing mongo_db_connect", backend)
+print("Importing mongo_db_connect", backend, hf, mongo_db_connect)
 
 # Optional: libraries for document parsing. Make sure they're installed (see requirements.txt)
 try:
