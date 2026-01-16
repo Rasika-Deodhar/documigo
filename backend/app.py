@@ -113,14 +113,14 @@ def get_data():
 def store_text():
     data = request.json
     # Implement your logic to store the text data here
-    write_to_db("document_text", data)
+    mongo_db_connect.write_to_db("document_text", data)
     return jsonify({"status": "success", "data": data})
 
 @app.route('/api/store-text-summary', methods=['POST'])
 def store_text_summary():
     data = request.json
     # Implement your logic to store the text data here
-    write_to_db("document_summary", data)
+    mongo_db_connect.write_to_db("document_summary", data)
     return jsonify({"status": "success", "data": data})
 
 if __name__ == '__main__':
