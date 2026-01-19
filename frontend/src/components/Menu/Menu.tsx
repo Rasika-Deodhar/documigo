@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useGlobal } from '../../contexts/GlobalContext';
 import './Menu.css';
 
@@ -6,8 +6,17 @@ const Menu: FC = () => {
   const { documentText, setDocSummary, apiBaseUrl } = useGlobal();
 
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('Button clicked!', event);
     console.log('Doc Text', documentText);
+
+    if (documentText.length > 0) {
+      await generateSummary(documentText);
+    } else {
+      console.log('No document text available to generate summary.');
+    }
+  };
+
+  const generateSummary = async (documentText:string) => {
+    console.log('Generating summary for document text:', documentText);
     try {
       const response = await fetch(`${apiBaseUrl}/api/generate-summary`, {
         method: 'POST',
@@ -24,7 +33,7 @@ const Menu: FC = () => {
     } catch (err) {
       console.error('Error during button click handling:', err);
     }
-  };
+  }
 
   return (
     <div className='menu'>
