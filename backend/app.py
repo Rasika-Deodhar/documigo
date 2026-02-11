@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 import io
 import os
 from backend import hf, mongo_db_connect
+import logging
 
 # Optional: libraries for document parsing. Make sure they're installed (see requirements.txt)
 try:
@@ -19,6 +20,7 @@ except Exception:
 
 app = Flask(__name__)
 CORS(app)
+logger = logging.getLogger(__name__)
 
 # Limit uploads to 16 MB
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -70,8 +72,8 @@ def read_document():
     _, ext = os.path.splitext(filename.lower())
     data = file.read()
 
-    print.log(f"Received file: {filename} ({len(data)} bytes)")
-    print.log(f"File data: {data}")
+    logger.info(f"Received file: {filename} ({len(data)} bytes)")
+    logger.info(f"File data: {data}")
 
     try:
         if ext in ('.txt', '.md'):
