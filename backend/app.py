@@ -70,6 +70,9 @@ def read_document():
     _, ext = os.path.splitext(filename.lower())
     data = file.read()
 
+    print.log(f"Received file: {filename} ({len(data)} bytes)")
+    print.log(f"File data: {data}")
+
     try:
         if ext in ('.txt', '.md'):
             try:
