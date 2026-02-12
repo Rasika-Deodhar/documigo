@@ -42,10 +42,12 @@ def extract_text_from_pdf(data: bytes) -> str:
     texts = []
     for page in reader.pages:
         try:
+            logger.info(f"Extracting text from PDF page {reader.pages.index(page) + 1}/{len(reader.pages)}")
             texts.append(page.extract_text() or "")
         except Exception:
             # ignore page-level errors
             print("Warning: failed to extract text from a PDF page, skipping.", Exception)
+            logger.warning("Warning: failed to extract text from a PDF page, skipping.", exc_info=True)
             continue
     return "\n".join(texts)
 
