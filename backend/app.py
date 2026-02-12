@@ -73,7 +73,6 @@ def read_document():
     data = file.read()
 
     logger.info(f"Received file: {filename} ({len(data)} bytes)")
-    logger.info(f"File data: {data}")
 
     try:
         if ext in ('.txt', '.md'):
@@ -83,6 +82,7 @@ def read_document():
                 text = data.decode('latin-1', errors='replace')
         elif ext == '.pdf':
             text = extract_text_from_pdf(data)
+            logger.info(f"Extracted text from PDF: {text[:200]}...")  # Log first 200 chars
         elif ext in ('.docx',):
             text = extract_text_from_docx(data)
         else:
